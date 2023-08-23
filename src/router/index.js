@@ -4,15 +4,16 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
-            path: '/some',
-            name: 'some',
-            component: () => import('../views/Some.vue')
+            path: '/admin/categories',
+            name: 'admin.categories.index',
+            component: () => import('../views/Admin/Categories/Index.vue')
         },
         {
-            path: '/second',
-            name: 'second',
-            component: () => import('../views/Second.vue')
+            path: '/admin/categories',
+            name: 'admin.categories.create',
+            component: () => import('../views/Admin/Categories/Create.vue')
         },
+
     ]
 });
 
