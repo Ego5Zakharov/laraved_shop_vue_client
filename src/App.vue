@@ -1,7 +1,6 @@
 <template>
   <div>
-    <router-link to="/some">Some</router-link>
-    <router-link to="/second">Second</router-link>
+    <router-link :to="{name: 'admin.categories.index'}">Index Category</router-link>
     <router-view></router-view>
   </div>
 </template>
