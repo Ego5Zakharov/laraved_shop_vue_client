@@ -4,7 +4,7 @@
 
 
 .tw-container-center {
-    @apply container mx-auto
+    @apply container mx-auto px-1
 }
 
 .tw-table {
@@ -21,4 +21,38 @@
 
 .tw-table-tbody-td {
     @apply px-6 py-3 whitespace-nowrap border
+}
+
+.tw-gray-button {
+    @apply bg-white px-4 py-2 border border-gray-400 rounded text-gray-800 hover:bg-gray-100 font-semibold shadow
+}
+
+.tw-red-input {
+    @apply focus:outline-none text-lg py-1.5 border-black border-b w-full
+    focus:border-red-500 transition-colors
+}
+
+.tw-link-blue {
+    @apply hover:text-sky-500 text-xl
+}
+
+.tw-link-red {
+    @apply hover:text-red-700 text-xl
+}
+
+.tw-pagination-nav-ul-li {
+    @apply px-4 py-2  rounded hover:bg-gray-100 cursor-pointer shadow
+}
+
+.tw-pagination-nav-ul-li-active {
+    @apply px-4 py-2 bg-gray-200 rounded  shadow
+}
+
+
+.tw-pagination-left-arrow {
+    @apply px-4 py-2  rounded hover:bg-gray-100 cursor-pointer shadow
+}
+
+.tw-pagination-right-arrow {
+    @apply px-4 py-2  rounded hover:bg-gray-100 cursor-pointer shadow
 }
