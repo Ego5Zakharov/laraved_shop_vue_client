@@ -3,27 +3,14 @@ import axios from "@/axios";
 
 export default {
   name: "Show",
-  data() {
-    return {
-      category: {
-        id: null,
-        title: '',
-      }
-    }
-  },
-  methods: {
-    getCategoryById(id) {
-
-      axios.get(`/categories/${id}/`).then(res => {
-        const categoryData = res.data.data;
-        this.category.title = categoryData.title;
-        this.category.id = categoryData.id;
-      });
-    }
-  },
+  methods: {},
   mounted() {
-    const categoryId = this.$route.params.id;
-    this.getCategoryById(categoryId);
+    this.$store.dispatch('getCategoryById', this.$route.params.id);
+  },
+  computed: {
+    category() {
+      return this.$store.getters.category;
+    }
   }
 }
 </script>

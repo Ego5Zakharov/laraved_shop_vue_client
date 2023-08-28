@@ -15,11 +15,6 @@ export default {
     getAllCategories(page) {
       this.$store.dispatch('getAllCategories', {'page': page});
     },
-    deleteCategory(id) {
-      axios.delete(`/categories/${id}`).then(res => {
-        this.categories = this.categories.filter(category => category.id !== id);
-      });
-    }
   }
 }
 </script>
@@ -72,7 +67,7 @@ export default {
               </router-link>
             </td>
             <td class="tw-table-tbody-td">
-              <a @click.prevent="deleteCategory(category.id)" class="tw-link-red cursor-pointer">
+              <a @click.prevent="this.$store.dispatch('deleteCategory',category.id)" class="tw-link-red cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round"

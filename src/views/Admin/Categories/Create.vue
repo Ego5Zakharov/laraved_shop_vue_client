@@ -1,45 +1,17 @@
 <script>
 import axios from "@/axios";
 import router from "@/router";
+import {mapGetters} from "vuex";
 
 export default {
-  data() {
-    return {
-      title: '',
-      errors: []
-    }
+  computed: {
+    ...mapGetters({
+      category: "category",
+      errors: "errors"
+    })
   },
-
-  methods: {
-    createCategory() {
-      axios.post('categories/', {title: this.title}).then(res => {
-        router.push({name: 'admin.categories.index'});
-      }).catch(error => {
-            this.errors = [];
-            console.error('Ошибка при создании категории:', error);
-
-            if (error.response && error.response.data && error.response.data.errors) {
-              const serverErrors = error.response.data.errors;
-
-              for (const key in serverErrors) {
-                if (serverErrors.hasOwnProperty(key)) {
-                  const messages = serverErrors[key];
-                  this.errors.push(...messages.map(message => ({id: Date.now, message})));
-                }
-              }
-
-            } else {
-              this.errors.push({id: Date.now(), message: 'Ошибка создания категории.'});
-            }
-          }
-      );
-    },
-    closeError(error) {
-      const index = this.errors.indexOf(error);
-      if (index !== -1) {
-        this.errors.splice(index, 1);
-      }
-    }
+  mounted() {
+    this.$store.commit('setCategory', {title: null})
   }
 }
 </script>
@@ -61,7 +33,7 @@ export default {
             <div>
               {{ error.message }}
             </div>
-            <div class="mr-2 hover:text-red-700" @click.prevent="closeError(error)">
+            <div class="mr-2 hover:text-red-700" @click.prevent="this.$store.dispatch('closeError',error)">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -72,13 +44,14 @@ export default {
       </div>
 
       <input
-          v-model="title"
+          v-model="category.title"
           class="tw-red-input"
           type="text"
           placeholder="Название">
 
       <button class="tw-gray-button"
-              @click.prevent="createCategory" type="button">Создать
+              @click.prevent="this.$store.dispatch('createCategory',{id:category.id,title:category.title})"
+              type="button">Создать
       </button>
     </div>
   </div>
