@@ -1,38 +1,37 @@
 <script>
-import axios from "@/axios";
 import {mapGetters} from "vuex";
 import Pagination from "@/views/Admin/Common/Pagination.vue";
-import pagination from "@/store/modules/admin/pagination";
 
 export default {
   name: "Index",
   components: {Pagination},
   mounted() {
-    this.getAllCategories(1);
+    this.getAllTags(1);
   },
   methods: {
-    getAllCategories(page) {
-      this.$store.dispatch('getAllCategories', {'page': page});
-    },
-  },
-  computed: {
-    ...mapGetters(['categories', 'pagination', 'page']),
+    getAllTags(page) {
+      this.$store.dispatch('getAllTags', {page: page})
+    }
   },
 
+  computed: {
+    ...mapGetters(['tags', 'pagination', 'page'])
+  }
 }
+
 </script>
 
 <template>
   <div class="tw-container-center">
     <div class="flex justify-between items-center mb-2">
-      <div class="text-3xl">Категории</div>
-      <router-link :to="{name:'admin.categories.create'}">
+      <div class="text-3xl">Теги</div>
+      <router-link :to="{name:'admin.tags.create'}">
         <button class="px-1 py-2 border border-gray-400 rounded text-gray-800 hover:bg-gray-100 font-semibold shadow">
           Создать
         </button>
       </router-link>
     </div>
-    <template v-if="categories.length !== 0">
+    <template v-if="tags.length !== 0">
       <table class="tw-table">
         <thead class="tw-thead">
         <tr>
@@ -45,12 +44,12 @@ export default {
         </thead>
         <tbody class="tw-table-tbody">
 
-        <template v-for="category in categories" :key="category.id">
+        <template v-for="tag in tags" :key="tag.id">
           <tr>
-            <td class="tw-table-tbody-td">{{ category.id }}</td>
-            <td class="tw-table-tbody-td">{{ category.title }}</td>
+            <td class="tw-table-tbody-td">{{ tag.id }}</td>
+            <td class="tw-table-tbody-td">{{ tag.title }}</td>
             <td class="tw-table-tbody-td">
-              <router-link class="tw-link-blue" :to="{name:'admin.categories.show',params:{id:category.id}}">
+              <router-link class="tw-link-blue" :to="{name:'admin.tags.show',params:{id:tag.id}}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -61,7 +60,7 @@ export default {
               </router-link>
             </td>
             <td class="tw-table-tbody-td">
-              <router-link class="tw-link-blue" :to="{name:'admin.categories.edit',params:{id:category.id}}">
+              <router-link class="tw-link-blue" :to="{name:'admin.tags.edit',params:{id:tag.id}}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -70,7 +69,7 @@ export default {
               </router-link>
             </td>
             <td class="tw-table-tbody-td">
-              <a @click.prevent="this.$store.dispatch('deleteCategory',category.id)" class="tw-link-red cursor-pointer">
+              <a @click.prevent="this.$store.dispatch('deleteTag',tag.id)" class="tw-link-red cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -83,13 +82,15 @@ export default {
 
         </tbody>
       </table>
-      <Pagination :pagination="pagination" :paginationMethod="getAllCategories"></Pagination>
+
+      <Pagination :pagination="pagination" :pagination-method="getAllTags"></Pagination>
+
     </template>
 
 
     <template v-else>
       <div class="flex justify-center mt-20">
-        <p class="text-2xl text-red-500">Категорий нет!</p>
+        <p class="text-2xl text-red-500">Тегов нет!</p>
       </div>
     </template>
   </div>

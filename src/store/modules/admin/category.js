@@ -6,18 +6,12 @@ const state = {
         id: null,
         title: ''
     },
-    page: null,
     categories: [],
-    pagination: [],
-    errors: []
 }
 
 const getters = {
     category: state => state.category,
     categories: state => state.categories,
-    page: state => state.page,
-    pagination: state => state.pagination,
-    errors: state => state.errors,
 }
 
 const actions = {
@@ -45,13 +39,15 @@ const actions = {
         });
     },
     createCategory({commit, getters}, category) {
-        axios.post('categories/', {title: category.title}).then(res => {
-            router.push({name: 'admin.categories.index'});
-        }).catch(error => {
+        axios.post('categories/', {title: category.title})
+            .then(res => {
+                router.push({name: 'admin.categories.index'});
+            })
+            .catch(error => {
                 commit('setErrorsException', {error});
-            }
-        );
+            });
     },
+
     updateCategory({commit}, {category}) {
         axios.patch(`/categories/${category.id}`, {title: category.title}).then(res => {
             router.push({name: 'admin.categories.index'});
@@ -60,13 +56,6 @@ const actions = {
             }
         );
     },
-    closeError({commit, getters}, error) {
-        let index = getters.errors.indexOf(error);
-        if (index !== -1) {
-            getters.errors.splice(index, 1);
-            commit('setErrors', getters.errors);
-        }
-    }
 
 }
 
@@ -74,38 +63,9 @@ const mutations = {
     setCategory(state, category) {
         state.category = category;
     },
-    setPage(state, page) {
-        state.page = page;
-    },
     setCategories(state, categories) {
         state.categories = categories;
     },
-    setPagination(state, pagination) {
-        state.pagination = pagination;
-    },
-    setErrors(state, errors) {
-        state.errors = errors;
-    },
-    setErrorsException(state, {error}) {
-        state.errors = [];
-        let errors = [];
-        console.log(error);
-        if (error.response && error.response.data && error.response.data.errors) {
-            const serverErrors = error.response.data.errors;
-
-            for (const key in serverErrors) {
-                if (serverErrors.hasOwnProperty(key)) {
-                    const messages = serverErrors[key];
-                    errors.push(...messages.map(message => ({id: Date.now, message})));
-                }
-            }
-        } else {
-            errors.push({id: Date.now(), message: 'Ошибка редактирования категории.'});
-        }
-
-        this.commit('setErrors', errors);
-    }
-
 }
 
 export default {
