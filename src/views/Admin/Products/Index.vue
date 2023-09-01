@@ -1,24 +1,22 @@
 <script>
-import axios from "@/axios";
 import {mapGetters} from "vuex";
 import Pagination from "@/views/Admin/Common/Pagination.vue";
-import pagination from "@/store/modules/admin/pagination";
 
 export default {
   name: "Index",
   components: {Pagination},
   mounted() {
-    this.getAllCategories(1);
+    this.getAllProducts(1);
   },
   methods: {
-    getAllCategories(page) {
-      this.$store.dispatch('getAllCategories', {'page': page});
-    },
-  },
-  computed: {
-    ...mapGetters(['categories', 'pagination', 'page']),
+    getAllProducts(page) {
+      this.$store.dispatch('getAllProducts', {page: page})
+    }
   },
 
+  computed: {
+    ...mapGetters(['products', 'pagination', 'page'])
+  }
 }
 </script>
 
@@ -26,19 +24,27 @@ export default {
   <div>
     <div class="tw-container-center">
       <div class="flex justify-between items-center mb-2">
-        <div class="text-3xl">Категории</div>
-        <router-link :to="{name:'admin.categories.create'}">
+        <div class="text-3xl">Товары</div>
+        <router-link :to="{name:'admin.products.create'}">
           <button class="px-1 py-2 border border-gray-400 rounded text-gray-800 hover:bg-gray-100 font-semibold shadow">
             Создать
           </button>
         </router-link>
       </div>
-      <template v-if="categories.length !== 0">
+
+      <template v-if="products.length !== 0">
         <table class="tw-table">
           <thead class="tw-thead">
           <tr>
             <th class="tw-table-thead-th">id</th>
             <th class="tw-table-thead-th">Title</th>
+            <th class="tw-table-thead-th">Description</th>
+            <th class="tw-table-thead-th">Price</th>
+            <th class="tw-table-thead-th">Quantity</th>
+            <th class="tw-table-thead-th">Article</th>
+            <th class="tw-table-thead-th">Published</th>
+            <th class="tw-table-thead-th">Preview Image</th>
+
             <th class="tw-table-thead-th"></th>
             <th class="tw-table-thead-th"></th>
             <th class="tw-table-thead-th"></th>
@@ -46,12 +52,18 @@ export default {
           </thead>
           <tbody class="tw-table-tbody">
 
-          <template v-for="category in categories" :key="category.id">
+          <template v-for="product in products" :key="product.id">
             <tr>
-              <td class="tw-table-tbody-td">{{ category.id }}</td>
-              <td class="tw-table-tbody-td">{{ category.title }}</td>
+              <td class="tw-table-tbody-td">{{ product.id }}</td>
+              <td class="tw-table-tbody-td">{{ product.title }}</td>
+              <td class="tw-table-tbody-td">{{ product.description }}</td>
+              <td class="tw-table-tbody-td">{{ product.price }}</td>
+              <td class="tw-table-tbody-td">{{ product.quantity }}</td>
+              <td class="tw-table-tbody-td">{{ product.article }}</td>
+              <td class="tw-table-tbody-td">{{ product.is_published ? 'Опубликован' : 'Не опубликован' }}</td>
+              <td class="tw-table-tbody-td"><img :src="product.preview_image" alt=""></td>
               <td class="tw-table-tbody-td">
-                <router-link class="tw-link-blue" :to="{name:'admin.categories.show',params:{id:category.id}}">
+                <router-link class="tw-link-blue" :to="{name:'admin.products.show',params:{id:product.id}}">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                        stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -62,7 +74,7 @@ export default {
                 </router-link>
               </td>
               <td class="tw-table-tbody-td">
-                <router-link class="tw-link-blue" :to="{name:'admin.categories.edit',params:{id:category.id}}">
+                <router-link class="tw-link-blue" :to="{name:'admin.products.edit',params:{id:product.id}}">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                        stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -71,8 +83,7 @@ export default {
                 </router-link>
               </td>
               <td class="tw-table-tbody-td">
-                <a @click.prevent="this.$store.dispatch('deleteCategory',category.id)"
-                   class="tw-link-red cursor-pointer">
+                <a @click.prevent="this.$store.dispatch('deleteProduct',product.id)" class="tw-link-red cursor-pointer">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                        stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -85,13 +96,13 @@ export default {
 
           </tbody>
         </table>
-        <Pagination :pagination="pagination" :paginationMethod="getAllCategories"></Pagination>
-      </template>
 
+        <Pagination :pagination="pagination" :pagination-method="getAllProducts"></Pagination>
+      </template>
 
       <template v-else>
         <div class="flex justify-center mt-20">
-          <p class="text-2xl text-red-500">Категорий нет!</p>
+          <p class="text-2xl text-red-500">Товаров нет!</p>
         </div>
       </template>
     </div>

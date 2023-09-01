@@ -4,7 +4,7 @@
 
 
 .tw-container-center {
-    @apply container mx-auto px-1
+    @apply container mx-auto px-1 w-full
 }
 
 .tw-table {
@@ -28,20 +28,21 @@
 }
 
 .tw-red-input {
+
     @apply focus:outline-none text-lg py-1.5 border-black border-b w-full
-    focus:border-red-500 transition-colors
+    focus:border-red-500 transition-colors rounded-b
 }
 
 .tw-link-blue {
-    @apply hover:text-sky-500 text-xl
+    @apply hover:text-sky-500 text-xl cursor-pointer
 }
 
 .tw-link-red {
-    @apply hover:text-red-700 text-xl
+    @apply hover:text-red-700 text-xl transition-colors cursor-pointer
 }
 
 .tw-pagination-nav-ul-li {
-    @apply px-4 py-2  rounded hover:bg-gray-100 cursor-pointer shadow
+    @apply px-4 py-2  rounded hover:bg-gray-100 transition-colors cursor-pointer shadow
 }
 
 .tw-pagination-nav-ul-li-active {

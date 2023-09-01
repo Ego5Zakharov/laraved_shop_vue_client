@@ -16,17 +16,19 @@ export default {
 </script>
 
 <template>
-  <div class="tw-container-center">
-    <router-link class="tw-link-blue" :to="{name:'admin.tags.index'}">Назад</router-link>
+  <div>
+    <div class="tw-container-center">
+      <router-link class="tw-link-blue" :to="{name:'admin.tags.index'}">Назад</router-link>
 
-    <div class="space-y-2">
-      <div class="text-3xl">Тэг</div>
+      <div class="space-y-2">
+        <div class="text-3xl">Тэг</div>
 
-      <div class="text-2xl">
-        <p>Id: {{ tag.id }}</p>
-        <p>Title: {{ tag.title }}</p>
+        <div class="text-2xl">
+          <p>Id: {{ tag.id }}</p>
+          <p>Title: {{ tag.title }}</p>
+        </div>
+
       </div>
-
     </div>
   </div>
 </template>

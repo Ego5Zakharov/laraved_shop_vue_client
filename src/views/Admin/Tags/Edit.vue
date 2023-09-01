@@ -15,28 +15,30 @@ export default {
 </script>
 
 <template>
-  <div class="tw-container-center mt-2 ">
-    <router-link class="tw-link-blue" :to="{ name: 'admin.tags.index' }">Назад</router-link>
+  <div>
+    <div class="tw-container-center mt-2 ">
+      <router-link class="tw-link-blue" :to="{ name: 'admin.tags.index' }">Назад</router-link>
 
-    <div class="space-y-1">
-      <div>
-        <p class="py-0.5 text-3xl">Редактирование тега</p>
+      <div class="space-y-1">
+        <div>
+          <p class="py-0.5 text-3xl">Редактирование тега</p>
+        </div>
+
+        <Errors :errors="errors"></Errors>
+
+        <input
+            v-model="tag.title"
+            class="tw-red-input"
+            type="text"
+            placeholder="Название">
+
+        <button class="tw-gray-button"
+                @click.prevent="this.$store.dispatch('updateTag', tag);"
+                type="button">
+          Редактировать
+        </button>
+
       </div>
-
-      <Errors :errors="errors"></Errors>
-
-      <input
-          v-model="tag.title"
-          class="tw-red-input"
-          type="text"
-          placeholder="Название">
-
-      <button class="tw-gray-button"
-              @click.prevent="this.$store.dispatch('updateTag', tag);"
-              type="button">
-        Редактировать
-      </button>
-
     </div>
   </div>
 </template>
