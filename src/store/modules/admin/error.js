@@ -32,6 +32,7 @@ const mutations = {
                 }
             }
         } else {
+            console.log(error);
             errors.push({id: Date.now(), message: 'Ошибка!'});
         }
 

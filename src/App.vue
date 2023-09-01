@@ -1,5 +1,6 @@
 <template>
   <div class="space-x-2">
+    <router-link :to="{name: 'admin.products.index'}">Products</router-link>
     <router-link :to="{name: 'admin.categories.index'}">Categories</router-link>
     <router-link :to="{name:'admin.tags.index'} ">Tags</router-link>
     <router-view></router-view>
