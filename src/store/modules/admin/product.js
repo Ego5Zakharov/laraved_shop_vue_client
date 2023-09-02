@@ -23,7 +23,6 @@ const state = {
         selectedTags2: [],
     },
 
-
     categoriesForCreate: [],
     tagsForCreate: [],
 }
@@ -133,12 +132,42 @@ const actions = {
             if (getters.products.length === 0) dispatch('getAllProducts', {page: 1});
         });
     },
+    detachTagFromProduct({commit, getters}, {productId, tagId}) {
+        const url = `/products/${productId}/${tagId}/detachTag`;
+
+        axios.delete(url).then(res => {
+            commit('setTagsForProduct', getters.product.tags.filter(tag => tag.id !== tagId));
+        });
+    },
+    deleteProductImage({commit, getters, dispatch}, {productId, imageId}) {
+        const url = `/products/${productId}/${imageId}/deleteProductImage`;
+
+        axios.delete(url).then(res => {
+            commit('setImagesForProduct', getters.product.images.filter(image => image.id !== imageId));
+        });
+    },
+    // убрать превью-картинку не удаляя её из общего списка картинок
+    deleteProductPreviewImage({commit, getters}, {productId}) {
+
+        const url = `/products/${productId}/deleteProductPreviewImage`;
+        axios.patch(url, productId).then(res => {
+            commit('setPreviewImage', '');
+        });
+    },
+    changeProductPreviewImage({commit, getters}, {productId, imageId}) {
+        const url = `/products/${productId}/${imageId}/changeProductPreviewImage`;
+
+        axios.patch(url).then(res => {
+            commit('setPreviewImage', res.data.data.url)
+        });
+    },
     getProductById({commit, getters, dispatch}, id) {
         axios.get(`/products/${id}`).then(res => {
             commit('setProduct', res.data.data)
             console.log(getters.product);
         });
     }
+
 }
 const mutations = {
     setTitle(state, title) {
@@ -177,6 +206,12 @@ const mutations = {
         state.tagsForCreate = tagsForCreate;
     },
 
+    setTagsForProduct(state, tagForProduct) {
+        state.product.tags = tagForProduct;
+    },
+    setImagesForProduct(state, imagesForProduct) {
+        state.product.images = imagesForProduct;
+    },
     setSelectedTags2(state, selectedTags2) {
         state.product.selectedTags2 = selectedTags2;
     },
