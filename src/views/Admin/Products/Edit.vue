@@ -180,8 +180,16 @@ export default {
             <h2 class="text-3xl mb-1">Уже имеющиеся теги</h2>
             <nav class="space-y-1.5">
               <ul v-for="tag in product.tags">
-                <li class=" px-2 py-1 shadow shadow-black rounded">
+
+                <li class="flex justify-between px-2 py-1 shadow shadow-black rounded">
                   {{ tag.title }}
+                  <a class="tw-link-red"
+                     @click="this.$store.dispatch('detachTagFromProduct',{productId: product.id,tagId: tag.id})">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                  </a>
                 </li>
               </ul>
             </nav>
@@ -194,12 +202,39 @@ export default {
         <!-- Список изображений -->
         <div class="images">
           <h2 class="text-3xl">Уже имеющиеся изображения</h2>
-          <div class=" rounded shadow px-2 py-2 mt-4 transition-opacity duration-500 ">
+          <div class="rounded shadow px-2 py-2 mt-4 transition-opacity duration-500">
             <template v-if="product.images">
               <div class="w-full md:grid grid-cols-12 gap-x-1">
-                <div class="col-span-6" v-for="image in product.images" :key="image.id">
+                <div class="col-span-6 relative" v-for="image in product.images" :key="image.id">
+                  <!-- Картинка -->
                   <img class="w-full h-64 mt-3 shadow rounded" :src="image.url" alt="">
+
+                  <!-- Выбор текущей превью для картинки -->
+                  <div class="relative">
+                    <div
+                        class="tw-link-blue absolute bottom-[14rem] bg-blue-100 rounded left-2"
+                        @click="this.$store.dispatch('changeProductPreviewImage',
+                      {productId:product.id,imageId:image.id})">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                           stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <!-- Крестик для удаления -->
+                  <div class="absolute top-2 right-2 bg-blue-100 rounded">
+                    <div class="tw-link-red "
+                         @click="this.$store.dispatch('deleteProductImage',{productId:product.id,imageId:image.id})">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                           stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                    </div>
+                  </div>
                 </div>
+
               </div>
             </template>
             <template v-else>
@@ -215,7 +250,16 @@ export default {
           <h2 class="text-3xl">Текущее превью изображение</h2>
           <div>
             <template v-if="product.preview_image">
-              <img class="w-full shadow" :src="product.preview_image" alt="">
+              <div class="relative">
+                <div @click="this.$store.dispatch('deleteProductPreviewImage',{productId: product.id})"
+                     class="absolute right-2 top-2 bg-blue-100 rounded tw-link-red">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                       stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </div>
+                <img class="w-full shadow" :src="product.preview_image" alt="">
+              </div>
             </template>
             <template v-else>
               <div class="flex justify-center items-center h-[7.2rem] shadow mr-2 rounded text-center">
