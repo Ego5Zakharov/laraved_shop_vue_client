@@ -24,17 +24,28 @@
 }
 
 .tw-gray-button {
-    @apply bg-white px-4 py-2 border border-gray-400 rounded text-gray-800 hover:bg-gray-100 font-semibold shadow
+    @apply bg-white px-4 py-2 border border-gray-400 rounded text-gray-800 hover:bg-gray-100 font-semibold shadow mt-2
+}
+
+.tw-gray-button-sm {
+    @apply bg-white px-1 border border-gray-400 rounded text-gray-800 hover:bg-gray-100 font-semibold shadow mt-2
 }
 
 .tw-red-input {
-
-    @apply focus:outline-none text-lg py-1.5 border-black border-b w-full
+    @apply focus:outline-none text-lg px-2 py-1.5 border-black border-b w-full
     focus:border-red-500 transition-colors rounded-b
+}
+
+.tw-label-xl {
+    @apply text-xl px-2
 }
 
 .tw-link-blue {
     @apply hover:text-sky-500 text-xl cursor-pointer
+}
+
+.tw-link-blue-sm {
+    @apply hover:text-sky-500 cursor-pointer
 }
 
 .tw-link-red {

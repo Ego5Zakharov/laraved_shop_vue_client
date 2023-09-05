@@ -1,5 +1,5 @@
-import axios from "@/axios";
 import router from "@/router";
+import api from "@/axios/api";
 
 const state = {
     category: {
@@ -15,21 +15,24 @@ const getters = {
 }
 
 const actions = {
-    getAllCategories({commit, getters}, {page}) {
-        axios.post('/categories/index/', {'page': page}).then(res => {
-            commit('setCategories', res.data.data);
-            commit('setPagination', res.data.meta);
-            commit('setPage', page);
+    getAllCategories({commit, getters, dispatch}, {page}) {
+        api.post('/auth/categories/index/',
+            {'page': page})
+            .then(res => {
+                commit('setCategories', res.data.data);
+                commit('setPagination', res.data.meta);
+                commit('setPage', page);
+            }).catch(error => {
         });
     },
     getCategoryById({state, commit, dispatch}, id) {
-        axios.get(`/categories/${id}/`).then(res => {
+        api.get(`/auth/categories/${id}/`).then(res => {
             const categoryData = res.data.data;
             commit('setCategory', {id: categoryData.id, title: categoryData.title});
         });
     },
     deleteCategory({dispatch, commit, getters}, id) {
-        axios.delete(`/categories/${id}`).then(data => {
+        api.delete(`/auth/categories/${id}`).then(data => {
             const categories = getters.categories.filter(category => category.id !== id);
             if (categories.length === 0) {
                 dispatch('getAllCategories', {'page': 1});
@@ -39,7 +42,7 @@ const actions = {
         });
     },
     createCategory({commit, getters}, category) {
-        axios.post('categories/', {title: category.title})
+        api.post('/auth/categories/', {title: category.title})
             .then(res => {
                 router.push({name: 'admin.categories.index'});
             })
@@ -49,7 +52,7 @@ const actions = {
     },
 
     updateCategory({commit}, {category}) {
-        axios.patch(`/categories/${category.id}`, {title: category.title}).then(res => {
+        api.patch(`/auth/categories/${category.id}`, {title: category.title}).then(res => {
             router.push({name: 'admin.categories.index'});
         }).catch(error => {
                 commit('setErrorsException', {error});

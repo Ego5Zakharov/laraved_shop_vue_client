@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
+import {resolveDirective} from "vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,14 +64,62 @@ const router = createRouter({
             name: 'admin.products.show',
             component: () => import('../views/Admin/Products/Show.vue')
         },
-
         {
             path: '/admin/products/:id/edit',
             name: 'admin.products.edit',
-            component:()=> import('../views/Admin/Products/Edit.vue')
-        }
+            component: () => import('../views/Admin/Products/Edit.vue')
+        },
 
+        {
+            path: '',
+            name: 'home',
+            component: () => import('../views/Home/Home.vue'),
+        },
+        // auth (login,register)
+        {
+            path: '/login',
+            name: 'auth.login',
+            component: () => import('../views/Auth/Login/Login.vue')
+        },
+        {
+            path: '/register',
+            name: 'auth.register',
+            component: () => import('../views/Auth/Register/Register.vue')
+        },
+
+        {
+            path: '/:catchAll(.*)',
+            name: '404',
+            component: () => import('../views/Home/Home.vue')
+        }
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    const accessToken = localStorage.getItem('access_token');
+
+    if (!accessToken && to.name === 'home') {
+        return next();
+    }
+
+    if (!accessToken) {
+        if (to.name === 'auth.login' || to.name === 'auth.register') {
+            return next();
+        } else {
+            return next({name: 'auth.login'});
+        }
+    }
+
+
+
+    if (accessToken) {
+        if (to.name === 'auth.login' || to.name === 'auth.register') {
+            return next({name: 'home'});
+        }
+    }
+
+
+    next();
+})
 
 export default router;
