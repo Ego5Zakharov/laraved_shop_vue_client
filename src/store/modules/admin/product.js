@@ -1,5 +1,5 @@
-import axios from "@/axios";
 import router from "@/router";
+import api from "@/axios/api";
 
 const state = {
     products: [],
@@ -50,7 +50,7 @@ const getters = {
 }
 const actions = {
     getAllProducts({commit}, {page}) {
-        axios.post('/products/index/', {page: page}).then(res => {
+        api.post('/auth/products/index/', {page: page}).then(res => {
 
             commit('setProducts', res.data.data);
             commit('setPagination', res.data.meta);
@@ -58,7 +58,7 @@ const actions = {
         })
     },
     getCategoriesAndTagsForCreate({commit}) {
-        axios.get('/products/create').then(res => {
+        api.get('/auth/products/create').then(res => {
             commit('setTagsForCreate', res.data.data.tags.tags);
             commit('setCategoriesForCreate', res.data.data.categories.categories);
         });
@@ -81,7 +81,7 @@ const actions = {
             formData.append("tags[]", tag);
         });
 
-        axios.post("/products/", formData)
+        api.post("/auth/products/", formData)
             .then((res) => {
                 commit('setErrors', [])
                 router.push({name: "admin.products.index"});
@@ -115,7 +115,7 @@ const actions = {
             });
         }
 
-        axios.post(`/products/${product.id}/update`, formData).then(res => {
+        api.post(`/auth/products/${product.id}/update`, formData).then(res => {
             commit('setErrors', [])
             router.push({name: 'admin.products.index'});
 
@@ -126,43 +126,44 @@ const actions = {
     },
 
     deleteProduct({commit, getters, dispatch}, id) {
-        axios.delete(`/products/${id}`).then(res => {
+        api.delete(`/auth/products/${id}`).then(res => {
             commit('setProducts', getters.products.filter(product => product.id !== id));
 
             if (getters.products.length === 0) dispatch('getAllProducts', {page: 1});
         });
     },
     detachTagFromProduct({commit, getters}, {productId, tagId}) {
-        const url = `/products/${productId}/${tagId}/detachTag`;
+        const url = `/auth/products/${productId}/${tagId}/detachTag`;
 
-        axios.delete(url).then(res => {
+        api.delete(url).then(res => {
             commit('setTagsForProduct', getters.product.tags.filter(tag => tag.id !== tagId));
         });
     },
     deleteProductImage({commit, getters, dispatch}, {productId, imageId}) {
-        const url = `/products/${productId}/${imageId}/deleteProductImage`;
+        const url = `/auth/products/${productId}/${imageId}/deleteProductImage`;
 
-        axios.delete(url).then(res => {
+        api.delete(url).then(res => {
             commit('setImagesForProduct', getters.product.images.filter(image => image.id !== imageId));
         });
     },
+
     // убрать превью-картинку не удаляя её из общего списка картинок
     deleteProductPreviewImage({commit, getters}, {productId}) {
 
-        const url = `/products/${productId}/deleteProductPreviewImage`;
-        axios.patch(url, productId).then(res => {
+        const url = `/auth/products/${productId}/deleteProductPreviewImage`;
+        api.patch(url, productId).then(res => {
             commit('setPreviewImage', '');
         });
     },
     changeProductPreviewImage({commit, getters}, {productId, imageId}) {
         const url = `/products/${productId}/${imageId}/changeProductPreviewImage`;
 
-        axios.patch(url).then(res => {
+        api.patch(url).then(res => {
             commit('setPreviewImage', res.data.data.url)
         });
     },
     getProductById({commit, getters, dispatch}, id) {
-        axios.get(`/products/${id}`).then(res => {
+        api.get(`/auth/products/${id}`).then(res => {
             commit('setProduct', res.data.data)
             console.log(getters.product);
         });

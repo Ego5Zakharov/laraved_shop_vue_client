@@ -3,6 +3,7 @@ import axios from "@/axios";
 import {mapGetters} from "vuex";
 import Pagination from "@/views/Admin/Common/Pagination.vue";
 import pagination from "@/store/modules/admin/pagination";
+import router from "@/router";
 
 export default {
   name: "Index",
@@ -18,7 +19,6 @@ export default {
   computed: {
     ...mapGetters(['categories', 'pagination', 'page']),
   },
-
 }
 </script>
 
