@@ -25,6 +25,7 @@ const actions = {
             commit('setErrors', [])
             localStorage.setItem('access_token', res.data.access_token);
             console.log('successful')
+            console.log(res.data.permissions)
             router.push({name: 'home'})
         }).catch(
             error => {
@@ -63,9 +64,7 @@ const mutations = {
     setPasswordConfirm(state, password_confirm) {
         state.auth.password_confirm = password_confirm;
     },
-
 }
-
 
 export default {
     state, getters, actions, mutations

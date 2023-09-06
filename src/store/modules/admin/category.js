@@ -22,6 +22,7 @@ const actions = {
                 commit('setCategories', res.data.data);
                 commit('setPagination', res.data.meta);
                 commit('setPage', page);
+
             }).catch(error => {
         });
     },

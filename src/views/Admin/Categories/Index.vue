@@ -19,7 +19,6 @@ export default {
   computed: {
     ...mapGetters(['categories', 'pagination', 'page']),
   },
-
 }
 </script>
 
