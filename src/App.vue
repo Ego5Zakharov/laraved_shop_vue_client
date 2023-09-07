@@ -14,6 +14,11 @@
     >Tags
     </router-link>
 
+    <router-link :key="$route.fullPath" v-if="access_token && hasPermission('index users')"
+                 :to="{name:'admin.users.index'}"
+    >Users
+    </router-link>
+
     <router-link :key="$route.fullPath" v-if="!access_token" :to="{name:'auth.login'} ">Login</router-link>
     <router-link :key="$route.fullPath" v-if="!access_token" :to="{name:'auth.register'} ">Registration</router-link>
 

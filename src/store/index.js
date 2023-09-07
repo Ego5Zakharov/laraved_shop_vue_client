@@ -6,9 +6,10 @@ import Pagination from "@/store/modules/admin/pagination";
 import Product from "@/store/modules/admin/product";
 import Auth from "@/store/modules/auth/auth";
 import Authorization from "@/store/modules/authorization/authorization";
+import User from "@/store/modules/admin/user";
 
 export default new Vuex.Store({
     modules: {
-        Category, Tag, Error, Pagination, Product,Auth,Authorization
+       User, Category, Tag, Error, Pagination, Product,Auth,Authorization
     }
 })

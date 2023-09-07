@@ -16,8 +16,7 @@ const getters = {
 
 const actions = {
     getAllCategories({commit, getters, dispatch}, {page}) {
-        api.post('/auth/categories/index/',
-            {'page': page})
+        api.post('/auth/categories/index/', {'page': page})
             .then(res => {
                 commit('setCategories', res.data.data);
                 commit('setPagination', res.data.meta);

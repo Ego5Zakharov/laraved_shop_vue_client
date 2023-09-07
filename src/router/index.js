@@ -5,6 +5,17 @@ import store from "@/store";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        // users
+        {
+            path: '/admin/users/index',
+            name: 'admin.users.index',
+            component: () => import('../views/Admin/Users/Index.vue')
+        },
+        {
+            path: '/admin/users/:id/show',
+            name: 'admin.users.show',
+            component: () => import('../views/Admin/Users/Show.vue')
+        },
         // categories
         {
             path: '/admin/categories/index',
@@ -48,7 +59,7 @@ const router = createRouter({
             name: 'admin.tags.show',
             component: () => import('../views/Admin/Tags/Show.vue')
         },
-
+        
         // products
         {
             path: '/admin/products/index',
@@ -87,6 +98,7 @@ const router = createRouter({
             name: 'auth.register',
             component: () => import('../views/Auth/Register/Register.vue')
         },
+
 
         {
             path: '/:catchAll(.*)',
