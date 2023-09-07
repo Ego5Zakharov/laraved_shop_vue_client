@@ -1,4 +1,3 @@
-import axios from "@/axios";
 import router from "@/router";
 import api from "@/axios/api";
 
@@ -18,14 +17,16 @@ const getters = {
     password_confirm: state => state.auth.password_confirm,
 }
 const actions = {
-    login({commit, getters}, {auth}) {
-        axios.post('/auth/login/', {
+    login({commit, getters, dispatch}, {auth}) {
+        api.post('/auth/login/', {
             email: auth.email, password: auth.password,
         }).then(res => {
             commit('setErrors', [])
             localStorage.setItem('access_token', res.data.access_token);
-            console.log('successful')
-            console.log(res.data.permissions)
+
+            dispatch('getPermissionsData');
+            dispatch('getRolesData');
+
             router.push({name: 'home'})
         }).catch(
             error => {
@@ -33,19 +34,34 @@ const actions = {
             }
         )
     },
-    register({commit, getters}, {auth}) {
-        axios.post('/auth/register', {
+    register({commit, getters, dispatch}, {auth}) {
+        api.post('/auth/register', {
             name: auth.name,
             email: auth.email,
             password: auth.password,
             password_confirmation: auth.password_confirmation
         }).then(res => {
+
             commit('setErrors', [])
             localStorage.setItem('access_token', res.data.access_token);
-            router.push({name: 'home'});
+
+            dispatch('getPermissionsData');
+            dispatch('getRolesData');
+
+            router.push({name:'home'});
         }).catch(error => {
             commit('setErrorsException', {error});
         })
+    },
+    logout({commit}) {
+        api.post('/auth/logout').then(res => {
+
+            localStorage.removeItem('access_token');
+            commit('setRoles', []);
+            commit('setPermissions', []);
+
+           router.push({name: 'auth.login'});
+        });
     }
 }
 const mutations = {

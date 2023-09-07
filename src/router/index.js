@@ -5,11 +5,22 @@ import store from "@/store";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        // users
+        {
+            path: '/admin/users/index',
+            name: 'admin.users.index',
+            component: () => import('../views/Admin/Users/Index.vue')
+        },
+        {
+            path: '/admin/users/:id/show',
+            name: 'admin.users.show',
+            component: () => import('../views/Admin/Users/Show.vue')
+        },
         // categories
         {
             path: '/admin/categories/index',
             name: 'admin.categories.index',
-            component: () => import('../views/Admin/Categories/Index.vue')
+            component: () => import('../views/Admin/Categories/Index.vue'),
         },
         {
             path: '/admin/categories/create',
@@ -48,7 +59,7 @@ const router = createRouter({
             name: 'admin.tags.show',
             component: () => import('../views/Admin/Tags/Show.vue')
         },
-
+        
         // products
         {
             path: '/admin/products/index',
@@ -88,6 +99,7 @@ const router = createRouter({
             component: () => import('../views/Auth/Register/Register.vue')
         },
 
+
         {
             path: '/:catchAll(.*)',
             name: '404',
@@ -99,15 +111,15 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const accessToken = localStorage.getItem('access_token');
 
-    // if (accessToken) {
-    //     try {
-    //         await store.dispatch('getPermissionsData');
-    //         await store.dispatch('getRolesData');
-    //     } catch (error) {
-    //         console.log(error);
-    //         next();
-    //     }
-    // }
+    if (accessToken) {
+        try {
+            await store.dispatch('getPermissionsData');
+            await store.dispatch('getRolesData');
+        } catch (error) {
+            console.log(error);
+            next();
+        }
+    }
 
     if (!accessToken && to.name === 'home') {
         return next();
