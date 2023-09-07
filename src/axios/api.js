@@ -39,11 +39,14 @@ api.interceptors.response.use(response => {
             return axios.request(error.config);
         });
     }
+
+    if (error.response.data.message === "The token has been blacklisted") {
+        console.log(123);
+    }
     if (error.response.status === 403) {
         console.log('Туда нельзя)');
         router.push({name: 'home'});
     }
-
 
     return Promise.reject(error);
 });

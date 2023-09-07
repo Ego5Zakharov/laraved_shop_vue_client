@@ -9,7 +9,7 @@ const router = createRouter({
         {
             path: '/admin/categories/index',
             name: 'admin.categories.index',
-            component: () => import('../views/Admin/Categories/Index.vue')
+            component: () => import('../views/Admin/Categories/Index.vue'),
         },
         {
             path: '/admin/categories/create',
@@ -99,15 +99,15 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const accessToken = localStorage.getItem('access_token');
 
-    // if (accessToken) {
-    //     try {
-    //         await store.dispatch('getPermissionsData');
-    //         await store.dispatch('getRolesData');
-    //     } catch (error) {
-    //         console.log(error);
-    //         next();
-    //     }
-    // }
+    if (accessToken) {
+        try {
+            await store.dispatch('getPermissionsData');
+            await store.dispatch('getRolesData');
+        } catch (error) {
+            console.log(error);
+            next();
+        }
+    }
 
     if (!accessToken && to.name === 'home') {
         return next();
