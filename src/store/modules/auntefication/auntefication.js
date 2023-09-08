@@ -57,8 +57,8 @@ const actions = {
         api.post('/auth/logout').then(res => {
 
             localStorage.removeItem('access_token');
-            commit('setRoles', []);
-            commit('setPermissions', []);
+            commit('setAuthRoles', []);
+            commit('setAuthPermissions', []);
 
            router.push({name: 'auth.login'});
         });

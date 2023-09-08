@@ -13,7 +13,6 @@ api.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-
 api.interceptors.response.use(response => {
     if (localStorage.getItem('access_token')) {
         response.config.headers.authorization = `Bearer ${localStorage.getItem('access_token')}`

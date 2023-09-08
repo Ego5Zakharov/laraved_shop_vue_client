@@ -5,6 +5,50 @@ import store from "@/store";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        // roles
+        {
+            path: '/admin/roles/index',
+            name: 'admin.roles.index',
+            component: () => import('../views/Admin/Roles/Index.vue')
+        },
+        {
+            path: '/admin/roles/create',
+            name: 'admin.roles.create',
+            component: () => import('../views/Admin/Roles/Create.vue')
+        },
+        {
+            path: '/admin/roles/:id/show',
+            name: 'admin.roles.show',
+            component: () => import('../views/Admin/Roles/Show.vue')
+        },
+        {
+            path: '/admin/roles/:id/edit',
+            name: 'admin.roles.edit',
+            component: () => import('../views/Admin/Roles/Edit.vue')
+        },
+
+        // permissions
+        {
+            path: '/admin/permissions/index',
+            name: 'admin.permissions.index',
+            component: () => import('../views/Admin/Permissions/Index.vue')
+        },
+        {
+            path: '/admin/permissions/create',
+            name: 'admin.permissions.create',
+            component: () => import('../views/Admin/Permissions/Create.vue')
+        },
+        {
+            path: '/admin/permissions/:id/show',
+            name: 'admin.permissions.show',
+            component: () => import('../views/Admin/Permissions/Show.vue')
+        },
+        {
+            path: '/admin/permissions/:id/edit',
+            name: 'admin.permissions.edit',
+            component: () => import('../views/Admin/Permissions/Edit.vue')
+        },
+
         // users
         {
             path: '/admin/users/index',
@@ -59,7 +103,7 @@ const router = createRouter({
             name: 'admin.tags.show',
             component: () => import('../views/Admin/Tags/Show.vue')
         },
-        
+
         // products
         {
             path: '/admin/products/index',

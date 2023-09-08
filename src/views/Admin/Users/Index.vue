@@ -1,6 +1,7 @@
 <script>
 import {mapGetters} from "vuex";
 import Pagination from "@/views/Admin/Common/Pagination.vue";
+import pagination from "@/store/modules/admin/pagination";
 
 export default {
   name: "Index",
