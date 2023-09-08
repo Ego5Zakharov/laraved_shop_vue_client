@@ -18,6 +18,15 @@
                  :to="{name:'admin.users.index'}"
     >Users
     </router-link>
+    <router-link :key="$route.fullPath" v-if="access_token && hasPermission('index roles')"
+                 :to="{name:'admin.roles.index'}"
+    >Roles
+    </router-link>
+    <router-link :key="$route.fullPath" v-if="access_token && hasPermission('index permissions')"
+                 :to="{name:'admin.permissions.index'}"
+    >Permissions
+    </router-link>
+
 
     <router-link :key="$route.fullPath" v-if="!access_token" :to="{name:'auth.login'} ">Login</router-link>
     <router-link :key="$route.fullPath" v-if="!access_token" :to="{name:'auth.register'} ">Registration</router-link>
@@ -44,7 +53,7 @@ export default {
     this.getAccessToken();
   },
   computed: {
-    ...mapGetters(['permissions', 'roles']),
+    ...mapGetters(['permissionsAuth', 'rolesAuth']),
   },
   updated() {
     this.getAccessToken();
@@ -54,9 +63,9 @@ export default {
       this.access_token = localStorage.getItem('access_token');
     },
     hasPermission(permissionName) {
-      const permissions = Array.from(this.permissions);
+      const permissionsAuth = Array.from(this.permissionsAuth);
 
-      return permissions.includes(permissionName);
+      return permissionsAuth.includes(permissionName);
     },
   },
 
