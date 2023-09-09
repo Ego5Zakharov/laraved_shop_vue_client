@@ -21,7 +21,7 @@ export default {
 
       <div class="space-y-1">
         <div>
-          <p class="py-0.5 text-3xl">Редактирование роли</p>
+          <p class="py-0.5 text-3xl">Редактирование полномочия</p>
         </div>
 
         <Errors :errors="errors"></Errors>

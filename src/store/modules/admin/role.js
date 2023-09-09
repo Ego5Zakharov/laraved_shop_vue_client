@@ -1,5 +1,6 @@
 import api from "@/axios/api";
 import router from "@/router";
+import permission from "@/store/modules/admin/permission";
 
 const state = {
     roles: [],
@@ -53,6 +54,23 @@ const actions = {
                 commit('setErrorsException', {error});
             });
     },
+    updateRole({commit, getters}, {role}) {
+        const dataToSend = {
+            name: role.name,
+        }
+
+        if (role.permissions.length > 0) {
+            dataToSend.permissions = role.permissions;
+        }
+        api.patch(`/auth/roles/${role.id}/update`, dataToSend)
+            .then(res => {
+                router.push({name:'admin.roles.index'})
+            }).catch(error => {
+            console.log(error);
+            commit('setErrorsException', {error})
+        });
+
+    },
     deleteRole({commit, getters, dispatch}, id) {
         api.post(`/auth/roles/${id}/delete`).then(res => {
             commit('setRoles', getters.roles.filter(role => role.id !== id));
@@ -60,8 +78,15 @@ const actions = {
                 dispatch('getAllRoles', {page: 1});
             }
         });
+    },
+    detachPermissionFromRole({commit, getters, dispatch}, {roleId, permissionId}) {
+        const url = `/auth/roles/${roleId}/${permissionId}/detachPermissionFromRole`;
+        api.delete(url).then(res => {
+            commit('setRolePermissions', getters.role.permissions.filter(
+                permission => permission.id !== permissionId)
+            )
+        });
     }
-
 }
 const mutations = {
     setRole(state, role) {
@@ -73,6 +98,9 @@ const mutations = {
     setPermissionsForActions(state, permissionsForActions) {
         state.permissionsForActions = permissionsForActions;
     },
+    setRolePermissions(state, rolePermissions) {
+        state.role.permissions = rolePermissions;
+    }
 }
 
 
