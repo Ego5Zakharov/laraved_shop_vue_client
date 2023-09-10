@@ -34,6 +34,15 @@ const actions = {
             commit('setRole', res.data.data)
         });
     },
+
+    getAllRolesForAction({commit}) {
+        api.get('/auth/roles/getAllRolesWithId').then(res => {
+            commit('setRolesForActions', res.data.data);
+        }).catch(error => {
+            console.log(error)
+        });
+    },
+
     createRole({commit, getters}, {role}) {
         const formData = new FormData();
         formData.append('name', role.name);
@@ -64,7 +73,7 @@ const actions = {
         }
         api.patch(`/auth/roles/${role.id}/update`, dataToSend)
             .then(res => {
-                router.push({name:'admin.roles.index'})
+                router.push({name: 'admin.roles.index'})
             }).catch(error => {
             console.log(error);
             commit('setErrorsException', {error})
@@ -72,7 +81,7 @@ const actions = {
 
     },
     deleteRole({commit, getters, dispatch}, id) {
-        api.post(`/auth/roles/${id}/delete`).then(res => {
+        api.delete(`/auth/roles/${id}/delete`).then(res => {
             commit('setRoles', getters.roles.filter(role => role.id !== id));
             if (getters.roles.length === 0) {
                 dispatch('getAllRoles', {page: 1});
@@ -95,6 +104,7 @@ const mutations = {
     setRoles(state, roles) {
         state.roles = roles;
     },
+
     setPermissionsForActions(state, permissionsForActions) {
         state.permissionsForActions = permissionsForActions;
     },

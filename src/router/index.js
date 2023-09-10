@@ -63,7 +63,7 @@ const router = createRouter({
         {
             path: '/admin/users/:id/edit',
             name: 'admin.users.edit',
-            component: () => import('../views/Admin/Users/Show.vue')
+            component: () => import('../views/Admin/Users/Edit.vue')
         },
         // categories
         {
