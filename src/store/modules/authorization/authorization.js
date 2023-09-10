@@ -12,7 +12,7 @@ const actions = {
     async getPermissionsData({commit, getters}) {
         try {
             const res = await api.get('/auth/permissions/')
-            commit('setAuthPermissions', res.data.permissions[0]);
+            commit('setAuthPermissions', res.data.permissions);
             console.log(getters.permissionsAuth)
         } catch (error) {
             console.log(error);
