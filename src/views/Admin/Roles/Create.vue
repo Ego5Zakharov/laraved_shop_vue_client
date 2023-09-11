@@ -2,7 +2,8 @@
 import axios from "@/axios";
 import router from "@/router";
 import {mapGetters} from "vuex";
-import Errors from "@/views/Admin/Common/Errors.vue";
+import Errors from "@/components/Common/Errors.vue";
+
 
 export default {
   components: {Errors},

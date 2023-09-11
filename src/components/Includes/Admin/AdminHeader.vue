@@ -1,19 +1,8 @@
-<template>
-  <Header class="mb-5"></Header>
-  <router-view></router-view>
-  <Footer></Footer>
-
-</template>
-
 <script>
 import {mapGetters} from "vuex";
-import AdminHeader from "@/components/Includes/Admin/AdminHeader.vue";
-import Header from "@/components/Includes/Header.vue";
-import Footer from "@/components/Includes/Footer.vue";
 
 export default {
-  name: 'App',
-  components: {Footer, Header, AdminHeader},
+  name: "AdminHeader",
   data() {
     return {
       access_token: null,
@@ -34,11 +23,29 @@ export default {
     },
     hasPermission(permissionName) {
       const permissionsAuth = Array.from(this.permissionsAuth);
+
       return permissionsAuth.includes(permissionName);
     },
   },
 }
+
+
 </script>
+
+<template>
+
+
+
+
+
+
+
+
+
+
+
+
+</template>
 
 <style scoped>
 

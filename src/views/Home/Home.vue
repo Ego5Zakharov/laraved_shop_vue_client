@@ -1,11 +1,15 @@
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
 }
 </script>
 
 <template>
-  <div>Home Page</div>
+    <div class="tw-container-center">
+      <div>Товары</div>
+      <div>Поиск товаров</div>
+    </div>
+
 </template>
 
 <style scoped>

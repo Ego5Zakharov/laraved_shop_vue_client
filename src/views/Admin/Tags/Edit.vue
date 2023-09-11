@@ -1,6 +1,7 @@
 <script>
 import {mapGetters} from "vuex";
-import Errors from "@/views/Admin/Common/Errors.vue";
+import Errors from "@/components/Common/Errors.vue";
+
 
 export default {
   name: 'Edit',
