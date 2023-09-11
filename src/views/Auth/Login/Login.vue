@@ -1,5 +1,5 @@
 <script>
-import Errors from "@/views/Admin/Common/Errors.vue";
+import Errors from "@/components/Common/Errors.vue";
 import {mapGetters} from "vuex";
 
 export default {

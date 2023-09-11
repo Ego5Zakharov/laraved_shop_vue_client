@@ -1,7 +1,9 @@
 <script>
 import axios from "@/axios";
 import {mapGetters} from "vuex";
-import Pagination from "@/views/Admin/Common/Pagination.vue";
+import Pagination from "@/components/Common/Pagination.vue";
+import Errors from "@/components/Common/Errors.vue";
+
 import pagination from "@/store/modules/admin/pagination";
 import router from "@/router";
 
