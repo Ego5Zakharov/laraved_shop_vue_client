@@ -21,6 +21,7 @@ export default {
       user: 'user',
       permissionsForActions: 'permissionsForActions',
       rolesForActions: 'rolesForActions',
+      permissionsWithoutRolesRelation: 'permissionsWithoutRolesRelation',
       errors: 'errors'
     })
   }
@@ -52,8 +53,16 @@ export default {
 
           <template v-if="user.roles">
             <div>Текущие роли юзера:</div>
-            <div v-for="role in user.roles" :key="role.id">
+            <div class="flex justify-between items-center" v-for="role in user.roles" :key="role.id">
               <div class="rounded w-full shadow px-2 py-2">{{ role.name }}</div>
+
+              <div @click="this.$store.dispatch('detachRoleFromUser',{userId:user.id,roleId:role.id,})"
+                   class="tw-link-red">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </div>
             </div>
           </template>
 
@@ -129,8 +138,20 @@ export default {
                     v-for="permission in user.permissionsWithoutRolesRelation"
                     :key="permission.id"
                 >
-                  <div>
-                    {{ permission.name }}
+
+                  <div class="flex justify-between items-center">
+                    <div>
+                      {{ permission.name }}
+                    </div>
+
+                    <div
+                        @click="this.$store.dispatch('detachPermissionFromUser',{userId:user.id,permissionId:permission.id,})"
+                        class="tw-link-red ml-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                           stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                    </div>
                   </div>
 
                 </nav>

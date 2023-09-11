@@ -1,4 +1,5 @@
 import api from "@/axios/api";
+import router from "@/router";
 
 const state = {
     users: [],
@@ -16,7 +17,7 @@ const state = {
 const getters = {
     users: state => state.users,
     user: state => state.user,
-    permissionsWithoutRolesRelation: state => state.permissionsWithoutRolesRelation,
+    permissionsWithoutRolesRelation: state => state.user.permissionsWithoutRolesRelation,
     rolesForActions: state => state.rolesForActions,
 }
 
@@ -45,29 +46,50 @@ const actions = {
             console.error(error);
         }
     },
-    async attachRolesToUser({commit, getters}, {userId, selectedRoles}) {
+    async attachRolesToUser({commit, getters, dispatch}, {userId, selectedRoles}) {
         console.log(userId, selectedRoles)
         try {
             const res = await api.post(`/auth/users/${userId}/attachRolesToUser`,
                 {'roles': selectedRoles}
             );
-            console.log(res);
-            // commit('setRolesToUser', res);
+            commit('setUser', res.data.data);
+            dispatch('getUserById', userId);
 
         } catch (error) {
             commit('setErrorsException', {error});
         }
     },
-    async attachPermissionsToUser({commit, getters}, {userId, selectedPermissions}) {
+    async attachPermissionsToUser({commit, getters, dispatch}, {userId, selectedPermissions}) {
         console.log(userId, selectedPermissions)
         try {
             const res = await api.post(`/auth/users/${userId}/attachPermissionToUser`,
                 {'permissions': selectedPermissions}
             );
-            console.log(res);
-
+            dispatch('getUserById', userId);
         } catch (error) {
             commit('setErrorsException', {error});
+        }
+    },
+
+    async detachRoleFromUser({commit, getters,dispatch}, {userId, roleId}) {
+        console.log(userId, roleId);
+        try {
+            const res = await api.delete(`/auth/users/${userId}/${roleId}/detachRoleFromUser`);
+
+            commit('setUserRoles', res.data.data.roles);
+            dispatch('getUserById', userId);
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async detachPermissionFromUser({commit, getters}, {userId, permissionId}) {
+        console.log(userId, permissionId);
+        try {
+            const res = await api.delete(`/auth/users/${userId}/${permissionId}/detachPermissionFromUser`);
+
+            commit('permissionsWithoutRolesRelation', res.data.data.permissionsWithoutRolesRelation);
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -91,13 +113,16 @@ const mutations = {
 
         state.user.permissions = [...new Set(userPermissions)];
     },
-
+    setUserRoles(state, userRoles) {
+        state.user.roles = userRoles;
+    },
     setRolesForActions(state, rolesForActions) {
         state.rolesForActions = rolesForActions;
     },
     permissionsWithoutRolesRelation(state, permissionsWithoutRolesRelation) {
-        state.permissionsWithoutRolesRelation = permissionsWithoutRolesRelation;
+        state.user.permissionsWithoutRolesRelation = permissionsWithoutRolesRelation;
     }
+
 }
 
 export default {
