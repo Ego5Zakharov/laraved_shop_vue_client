@@ -42,6 +42,15 @@ api.interceptors.response.use(response => {
     if (error.response.data.message === "The token has been blacklisted") {
         console.log(123);
     }
+
+    if (error.response.data.message === "The token has been blacklisted") {
+        localStorage.setItem('access_token', res.data.access_token);
+
+        error.config.headers.authorization = `Bearer ${res.data.access_token}`;
+
+        // Повтор запроса после обновления токена
+        return axios.request(error.config);
+    }
     if (error.response.status === 403) {
         console.log('Туда нельзя)');
         router.push({name: 'home'});
