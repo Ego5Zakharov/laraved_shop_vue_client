@@ -1,14 +1,17 @@
 <script>
+import Search from "@/components/Common/Search.vue";
+
 export default {
   name: 'Home',
+  components: {Search},
 }
 </script>
 
 <template>
-    <div class="tw-container-center">
-      <div>Товары</div>
-      <div>Поиск товаров</div>
-    </div>
+    <Search></Search>
+  <div class="tw-container-center">
+    <div>Товары</div>
+  </div>
 
 </template>
 

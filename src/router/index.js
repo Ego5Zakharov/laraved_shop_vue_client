@@ -32,7 +32,6 @@ const router = createRouter({
             component: () => import('../views/Home/Home.vue'),
         },
 
-
         {
             path: '/:catchAll(.*)',
             name: '404',
