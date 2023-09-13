@@ -1,5 +1,5 @@
 <template>
-  <Header class="mb-5"></Header>
+  <Header></Header>
   <router-view></router-view>
   <Footer></Footer>
 

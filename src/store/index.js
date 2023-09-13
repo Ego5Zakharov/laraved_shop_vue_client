@@ -9,9 +9,11 @@ import Authorization from "@/store/modules/authorization/authorization";
 import User from "@/store/modules/admin/user";
 import Role from "@/store/modules/admin/role";
 import Permission from "@/store/modules/admin/permission";
+import Product_search from "@/store/modules/search/product_search";
 
 export default new Vuex.Store({
     modules: {
-        User, Role, Permission, Category, Tag, Error, Pagination, Product, Auth, Authorization
+        User, Role, Permission, Category, Tag, Error, Pagination, Product, Auth, Authorization,
+        Product_search
     }
 })

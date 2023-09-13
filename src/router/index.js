@@ -33,6 +33,12 @@ const router = createRouter({
         },
 
         {
+            path: '/search/:q?/',
+            name: 'searchProducts',
+            component: () => import('../views/Search/Products/SearchProducts.vue')
+        },
+
+        {
             path: '/:catchAll(.*)',
             name: '404',
             component: () => import('../views/Home/Home.vue')
@@ -45,8 +51,8 @@ router.beforeEach(async (to, from, next) => {
 
     if (accessToken) {
         try {
-            await store.dispatch('getPermissionsData');
-            await store.dispatch('getRolesData');
+                await store.dispatch('getPermissionsData');
+                await store.dispatch('getRolesData');
         } catch (error) {
             console.log(error);
             next();
@@ -54,6 +60,9 @@ router.beforeEach(async (to, from, next) => {
     }
 
     if (!accessToken && to.name === 'home') {
+        return next();
+    }
+    if (!accessToken && to.name === 'searchProducts') {
         return next();
     }
 
