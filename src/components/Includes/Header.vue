@@ -4,6 +4,7 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Header",
+
   data() {
     return {
       access_token: null,
@@ -31,7 +32,7 @@ export default {
 </script>
 
 <template>
-  <header>
+  <header class="mb-5">
     <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
       <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
         <a href="" class="flex items-center">
@@ -57,9 +58,14 @@ export default {
         </div>
         <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
           <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-            <li v-if="access_token && hasPermission('index products')">
+            <li>
               <a href="#" class="nav-link">
                 <router-link :to="{ name: 'home' }">Home</router-link>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link">
+                <router-link :to="{ name: 'searchProducts' }">Market</router-link>
               </a>
             </li>
             <li v-if="access_token && hasPermission('index products')">
@@ -112,6 +118,7 @@ export default {
       </div>
     </nav>
   </header>
+
 </template>
 
 <style scoped>

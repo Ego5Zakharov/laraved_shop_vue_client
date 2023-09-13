@@ -4,7 +4,6 @@ import router from "@/router";
 const api = axios.create();
 
 api.interceptors.request.use(config => {
-
     if (localStorage.getItem('access_token')) {
         config.headers.authorization = `Bearer ${localStorage.getItem('access_token')}`
     }
@@ -17,45 +16,37 @@ api.interceptors.response.use(response => {
     if (localStorage.getItem('access_token')) {
         response.config.headers.authorization = `Bearer ${localStorage.getItem('access_token')}`
     }
-
     return response;
-}, error => {
+}, async error => {
     if (error.response.data.message === 'The token has been blacklisted') {
-        console.log('УДАЛИ ТОКЕН')
+        console.log('The token has been blacklisted');
         localStorage.removeItem('access_token');
+        console.log('The token has been deleted');
+
+        router.push({name: 'login'});
     }
     if (error.response.data.message === 'Token has expired') {
-        return axios.post('/auth/refresh', {}, {
-            headers: {
-                'authorization': `Bearer ${localStorage.getItem('access_token')}`
-            }
-        }).then(res => {
-            localStorage.setItem('access_token', res.data.access_token);
+        try {
+            const response = await axios.post('/auth/refresh', {}, {
+                headers: {
+                    'authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            });
+            localStorage.setItem('access_token', response.data.access_token);
+            error.config.headers.authorization = `Bearer ${response.data.access_token}`;
 
-            error.config.headers.authorization = `Bearer ${res.data.access_token}`;
-
-            // Повтор запроса после обновления токена
             return axios.request(error.config);
-        });
-    }
+        } catch (refreshError) {
 
-    if (error.response.data.message === "The token has been blacklisted") {
-        console.log(123);
-    }
-
-    if (error.response.data.message === "The token has been blacklisted") {
-        localStorage.setItem('access_token', res.data.access_token);
-
-        error.config.headers.authorization = `Bearer ${res.data.access_token}`;
-
-        // Повтор запроса после обновления токена
-        return axios.request(error.config);
+            console.error('Ошибка при обновлении токена:', refreshError);
+            localStorage.removeItem('access_token');
+            router.push({name: 'login'});
+        }
     }
     if (error.response.status === 403) {
         console.log('Туда нельзя)');
         router.push({name: 'home'});
     }
-
     return Promise.reject(error);
 });
 
